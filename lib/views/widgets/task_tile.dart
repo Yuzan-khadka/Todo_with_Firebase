@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_with_firebase/models/task_data.dart';
 import 'package:todo_with_firebase/models/task_model.dart';
 import 'package:todo_with_firebase/services/database.dart';
 import 'package:todo_with_firebase/views/widgets/dialog_content.dart';
@@ -47,20 +45,19 @@ class TaskTile extends StatelessWidget {
           ),
           Theme(
             data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Consumer<Task>(
-              builder: (context, taskData, child) {
-                return Checkbox(
-                    checkColor: Colors.green,
-                    activeColor: Colors.white,
-                    value: taskData.isDone,
-                    onChanged: (value) async {
-                      value = taskData.updateCheckbox();
-                      await Future.delayed(Duration(milliseconds: 1000), () {
-                        _databaseService.deleteData(task.id);
-                      });
-                    });
-              },
-            ),
+            child: Checkbox(
+                checkColor: Colors.green,
+                activeColor: Colors.white,
+                value: task.isDone,
+                onChanged: (value) async {
+                  await _databaseService.updateData(
+                      TaskModel(isDone: true, name: task.name), task.id);
+                  value = task.isDone;
+
+                  await Future.delayed(Duration(milliseconds: 2500), () {
+                    _databaseService.deleteData(task.id);
+                  });
+                }),
           )
         ],
       ),

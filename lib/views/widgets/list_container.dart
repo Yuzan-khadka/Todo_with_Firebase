@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:todo_with_firebase/views/widgets/task_list.dart';
 
-class ListContainer extends StatelessWidget {
+class ListContainer extends StatefulWidget {
   final ScrollController controller;
   const ListContainer({
     Key key,
     this.controller,
   }) : super(key: key);
 
+  @override
+  _ListContainerState createState() => _ListContainerState();
+}
+ 
+class _ListContainerState extends State<ListContainer> {
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -37,7 +43,7 @@ class ListContainer extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: TaskList(scrollController: controller),
+                child: TaskList(scrollController: widget.controller),
               ),
             ],
           ),

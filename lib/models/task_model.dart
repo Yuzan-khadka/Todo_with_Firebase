@@ -14,9 +14,10 @@ class TaskModel {
   TaskModel.fromSnapshot(QueryDocumentSnapshot doc) {
     id = doc.id;
     name = doc['name'];
+    isDone = doc['isDone'];
   }
 
   Map<String, dynamic> toMap() {
-    return {'name': name};
+    return {'name': name, 'isDone': isDone};
   }
 }
